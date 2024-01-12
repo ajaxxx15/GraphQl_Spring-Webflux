@@ -1,5 +1,6 @@
 package com.demo.webfluxgraphql.service;
 
+import com.demo.webfluxgraphql.dto.GetByIdAndNameRequest;
 import com.demo.webfluxgraphql.dto.Request;
 import com.demo.webfluxgraphql.dto.Response;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,9 @@ public interface ProductService {
 
     public Mono<Response> saveProduct(Mono<Request> request);
 
-    public Mono<Response> getproduct(String name);
+    public Mono<Response> getProductByName(String name);
+
+    public Mono<Response> getProductByIdAndName(GetByIdAndNameRequest getByIdAndNameRequest);
 
     public Mono<Response> deleteProduct(String id);
 

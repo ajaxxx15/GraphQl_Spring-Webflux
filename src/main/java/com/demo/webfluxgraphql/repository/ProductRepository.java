@@ -11,4 +11,7 @@ public interface ProductRepository extends ReactiveCassandraRepository<Product,S
     @AllowFiltering
     Flux<Product> findByName(String name);
 
+    @AllowFiltering
+    Flux<Product> findByIdAndName(String id,String name);
+
 }

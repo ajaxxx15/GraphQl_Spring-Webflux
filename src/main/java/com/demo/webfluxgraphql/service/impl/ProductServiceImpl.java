@@ -1,5 +1,6 @@
 package com.demo.webfluxgraphql.service.impl;
 
+import com.demo.webfluxgraphql.dto.GetByIdAndNameRequest;
 import com.demo.webfluxgraphql.dto.ProductDto;
 import com.demo.webfluxgraphql.dto.Request;
 import com.demo.webfluxgraphql.dto.Response;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -33,7 +35,6 @@ public class ProductServiceImpl implements ProductService {
                 .collectList()
 //                .map(AppUtil::dtoToRsponse).
                 .map(productDtos -> {
-                    response.setIsSuccess(true);
                     response.setProductDto(productDtos);
                     return response;
                 })
@@ -52,15 +53,24 @@ public class ProductServiceImpl implements ProductService {
                 .map(AppUtil::entityToDto)
                 .map(productDto -> {
                     response.setProductDto(Arrays.asList(productDto));
-                    response.setIsSuccess(true);
                     return response;
                 })
                 .onErrorMap(err -> err instanceof ProductNotFoundException ? err : new GenralException(err.getMessage())).log();
     }
 
     @Override
-    public Mono<Response> getproduct(String name) {
+    public Mono<Response> getProductByName(String name) {
         return productRepository.findByName(name).switchIfEmpty(Mono.error(new ProductNotFoundException(name)))
+                .map(AppUtil::entityToDto)
+                .collectList()
+                .map(AppUtil::dtoToRsponse)
+                .onErrorMap(err -> err instanceof ProductNotFoundException ? err : new GenralException(err.getMessage())).log();
+    }
+
+    @Override
+    public Mono<Response> getProductByIdAndName(GetByIdAndNameRequest getByIdAndNameRequest) {
+        return productRepository.findByIdAndName(getByIdAndNameRequest.getId(), getByIdAndNameRequest.getName())
+                .switchIfEmpty(Mono.error(new ProductNotFoundException("Id- " + getByIdAndNameRequest.getId() + ",Name- " + getByIdAndNameRequest.getName())))
                 .map(AppUtil::entityToDto)
                 .collectList()
                 .map(AppUtil::dtoToRsponse)

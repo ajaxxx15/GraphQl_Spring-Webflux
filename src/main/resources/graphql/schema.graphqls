@@ -5,17 +5,21 @@ type Schema{
 
 #type Mutation {
 #
-#}r
+#}
 
 type Query{
     getAllProduct:Response
-    getProduct(name:String):Response
+    getProductByName(name:String):Response
+    getByIdAndNameRequest(getByIdAndNameRequest:GetByIdAndNameRequest):Response
+}
+
+input GetByIdAndNameRequest{
+    id:String
+    name:String
 }
 
 type Response{
     productDto:[ProductDto]
-    errorMessage:String
-    isSuccess:Boolean
 }
 
 type ProductDto{

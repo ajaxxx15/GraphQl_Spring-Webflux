@@ -1,5 +1,6 @@
 package com.demo.webfluxgraphql.controller;
 
+import com.demo.webfluxgraphql.dto.GetByIdAndNameRequest;
 import com.demo.webfluxgraphql.dto.Request;
 import com.demo.webfluxgraphql.dto.Response;
 import com.demo.webfluxgraphql.service.ProductService;
@@ -31,9 +32,14 @@ public class ProductController {
 //                });
 //    }
 
-    @QueryMapping("getProduct")
-    public Mono<Response> getProduct(@Argument("name") String name){
-        return productService.getproduct(name);
+    @QueryMapping("getProductByName")
+    public Mono<Response> getProductByName(@Argument("name") String name){
+        return productService.getProductByName(name);
+    }
+
+    @QueryMapping("getByIdAndNameRequest")
+    public Mono<Response> getProductByIdAndName(@Argument GetByIdAndNameRequest getByIdAndNameRequest){
+        return productService.getProductByIdAndName(getByIdAndNameRequest);
     }
 
 //    @DeleteMapping("/delete/{id}")
