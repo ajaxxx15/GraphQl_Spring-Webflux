@@ -1,0 +1,26 @@
+type Schema{
+    query: Query
+#    mutation: Mutation
+}
+
+#type Mutation {
+#
+#}r
+
+type Query{
+    getAllProduct:Response
+    getProduct(name:String):Response
+}
+
+type Response{
+    productDto:[ProductDto]
+    errorMessage:String
+    isSuccess:Boolean
+}
+
+type ProductDto{
+    id:String
+    name:String
+    quantity:Int
+    price:Float
+}
