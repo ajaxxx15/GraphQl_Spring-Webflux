@@ -1,1 +1,2 @@
-Demo project for GraphQl with Spring Webflux
+# springwebflux-GRAPHQL
+POC of GraphQl with Spring Webflux
